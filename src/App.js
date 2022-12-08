@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import BookCreate from './components/BookCreate';
 import BookList from './components/BookList';
 
+export const EditDeleteContext = createContext();
+
 function App() {
   const [books, setBooks] = useState([]);
+
+
 
   const editBookById = (id, newTitle) => {
     const updatedBooks = books.map((book) => {
@@ -37,10 +41,12 @@ function App() {
   };
 
   return (
+    <EditDeleteContext.Provider value={{ editBookById, deleteBookById }}>
     <div className="app">
-      <BookList onEdit={editBookById} books={books} onDelete={deleteBookById} />
+      <BookList books={books} />
       <BookCreate onCreate={createBook} />
     </div>
+    </EditDeleteContext.Provider>
   );
 }
 
